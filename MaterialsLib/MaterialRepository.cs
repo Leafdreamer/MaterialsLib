@@ -124,30 +124,13 @@ namespace MaterialsLib
 
         public List<Material>? Filter(string filter)
         {
-            List<Material>? fakeList = new List<Material>(materialList);
             List<Material>? filtered = new List<Material>();
 
-            foreach (var item in fakeList)
+            foreach (var item in materialList)
             {
-                if (item.Name.Contains(filter))
+                if (item.Name.ToLower().Contains(filter.ToLower()) || item.Type.ToLower().Contains(filter.ToLower()) || (item.Tags != null && item.Tags.ToLower().Contains(filter.ToLower())) || item.Amount.ToString().Contains(filter))
                 {
                     filtered.Add(item);
-                    fakeList.Remove(item);
-                }
-                else if (item.Type.Contains(filter))
-                {
-                    filtered.Add(item);
-                    fakeList.Remove(item);
-                }
-                else if (item.Tags != null && item.Tags.Contains(filter))
-                {
-                    filtered.Add(item);
-                    fakeList.Remove(item);
-                }
-                else if (item.Amount.ToString().Contains(filter))
-                {
-                    filtered.Add(item);
-                    fakeList.Remove(item);
                 }
             }
 
