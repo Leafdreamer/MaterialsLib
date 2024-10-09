@@ -128,7 +128,7 @@ namespace MaterialsLib
 
             foreach (var item in materialList)
             {
-                if (item.Name.ToLower().Contains(filter.ToLower()) || item.Type.ToLower().Contains(filter.ToLower()) || (item.Tags != null && item.Tags.ToLower().Contains(filter.ToLower())) || item.Amount.ToString().Contains(filter))
+                if (item.Name.ToLower().Contains(filter.ToLower()) || item.Type.ToLower().Contains(filter.ToLower()) || (item.Tags != null && item.Tags.ConvertAll(x => x.ToLower()).Contains(filter.ToLower())) || item.Amount.ToString().Contains(filter))
                 {
                     filtered.Add(item);
                 }
