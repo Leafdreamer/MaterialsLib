@@ -1,16 +1,18 @@
-function Material(props) {
+const Material = ({ name, type, tags, amount, createdAt, updatedAt, onEdit}) => {
   return (
-    <>
-      <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-        <td class="px-6 py-3">{props.name}</td>
-        <td class="px-6 py-3">{props.type}</td>
-        <td class="px-6 py-3">{props.tags}</td>
-        <td class="px-6 py-3">{props.amount}</td>
-        <td class="px-6 py-3">{props.createdAt}</td>
-        <td class="px-6 py-3">{props.updatedAt}</td>
-      </tr>
-    </>
-  )
-}
+    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+      <td class="px-6 py-4">{name}</td>
+      <td class="px-6 py-4">{type}</td>
+      <td class="px-6 py-4">{tags.join(', ')}</td>
+      <td class="px-6 py-4">{amount}</td>
+      <td class="px-6 py-4">{createdAt}</td>
+      <td class="px-6 py-4">{updatedAt}</td>
+      <td class="px-6 py-4">
+        {/* Action buttons */}
+        <button onClick={onEdit} class="text-blue-600 hover:underline">Edit</button>
+      </td>
+    </tr>
+  );
+};
 
 export default Material;
