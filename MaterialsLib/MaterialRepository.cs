@@ -16,13 +16,8 @@ namespace MaterialsLib
         {
             materialList = new List<Material>();
 
-            List<string> l1 = new List<string>();
-            List<string> l2 = new List<string>();
-
-            l2.Add("test");
-
-            Material m1 = new Material(1, "Steel Bar", "Metal", l1, 2, "", DateTime.Now, DateTime.Now);
-            Material m2 = new Material(2, "Steel Screw", "Metal", l2, 8, "", DateTime.Now, DateTime.Now);
+            Material m1 = new Material(1, "Steel Bar", "Metal", "Small", 2, "", DateTime.Now, DateTime.Now);
+            Material m2 = new Material(2, "Steel Screw", "Metal", "Rusty", 8, "", DateTime.Now, DateTime.Now);
 
             materialList.Add(m1);
             materialList.Add(m2);
@@ -128,7 +123,7 @@ namespace MaterialsLib
 
             foreach (var item in materialList)
             {
-                if (item.Name.ToLower().Contains(filter.ToLower()) || item.Type.ToLower().Contains(filter.ToLower()) || (item.Tags != null && item.Tags.ConvertAll(x => x.ToLower()).Contains(filter.ToLower())) || item.Amount.ToString().Contains(filter))
+                if (item.Name.ToLower().Contains(filter.ToLower()) || item.Type.ToLower().Contains(filter.ToLower()) || (item.Tags != null && item.Tags.ToLower().Contains(filter.ToLower())) || item.Amount.ToString().Contains(filter))
                 {
                     filtered.Add(item);
                 }
