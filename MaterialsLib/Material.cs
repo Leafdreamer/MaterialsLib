@@ -5,13 +5,13 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
-        public List<string>? Tags { get; set; }
+        public string? Tags { get; set; }
         public int Amount { get; set; }
         public string? PictureURL { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set;}
 
-        public Material(int id, string name, string type, List<string>? tags, int amount, string? pictureurl, DateTime createdat, DateTime updatedat)
+        public Material(int id, string name, string type, string? tags, int amount, string? pictureurl, DateTime createdat, DateTime updatedat)
         {
             Id = id;
             Name = name;
