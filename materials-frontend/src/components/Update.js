@@ -12,14 +12,14 @@ function Update() {
     const fetchData = async () => {
 		try {
 		  const response = await fetch(`http://localhost:5096/api/Materials/${id}`, {
-	        method: 'GET', // or 'POST', 'PUT', etc.
+	        method: 'GET',
 		  });
 	  
 		  if (!response.ok) {
 			throw new Error('Network response was not ok');
 		  }
 	  
-		  const data = await response.json(); // assuming the response is JSON
+		  const data = await response.json();
 		  setMaterial(data);
 		  console.log(data);
 		  setLoading(false);
@@ -34,38 +34,38 @@ function Update() {
 	  
 	  useEffect(() => {
 		fetchData();
-	  }, [id]); // Call fetchData when the component mounts
+	  }, [id]);
 
 
       const handleUpdate = async (event) => {
         event.preventDefault();
-        material.updatedAt = new Date().toISOString();  // Ensure date is in correct format
+        material.updatedAt = new Date().toISOString(); 
       
         try {
           const response = await fetch(`http://localhost:5096/api/Materials/${id}`, {
-            method: 'PUT',  // PUT method to update the material
+            method: 'PUT', 
             headers: {
-              'Content-Type': 'application/json',  // Tell the server you're sending JSON
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify(material),  // Convert the material object to JSON
+            body: JSON.stringify(material),
           });
       
           if (!response.ok) {
-            throw new Error('Failed to update the material');  // Handle any errors from the API
+            throw new Error('Failed to update the material');
           }
       
-          navigate('/');  // Redirect back to the item list after a successful update
+          navigate('/');
         } catch (error) {
-          setError('Failed to update item');  // Handle any errors caught in the try/catch
+          setError('Failed to update item');
         }
       };
 
       const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(`Changing ${name} to ${value}`); // Debugging: Log the input changes
+        console.log(`Changing ${name} to ${value}`); // Debugging: Logging input changes
         setMaterial((prevMaterial) => ({
-          ...prevMaterial, // Keep previous material properties
-          [name]: value,  // Update only the changed field
+          ...prevMaterial,
+          [name]: value,
         }));
       };
 
