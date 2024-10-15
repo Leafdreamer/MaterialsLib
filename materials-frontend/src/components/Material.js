@@ -8,7 +8,6 @@ const Material = ({ name, type, tags, amount, createdAt, updatedAt, onEdit}) => 
       <td class="px-6 py-4">{createdAt}</td>
       <td class="px-6 py-4">{updatedAt}</td>
       <td class="px-6 py-4">
-        {/* Action buttons */}
         <button onClick={onEdit} class="text-blue-600 hover:underline">Edit</button>
       </td>
     </tr>

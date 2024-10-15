@@ -1,6 +1,6 @@
-import Material from "./Material";
+// import Material from "./Material";
 import { useEffect, useState } from "react";
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 // import { v4 as uuidv4 } from "uuid";
 
@@ -12,9 +12,9 @@ function Materials() {
 
 	const navigate = useNavigate();
 
-	const handleEdit = (id) => {
-		navigate(`/Materials/${id}`); // Navigate to edit page
-	};
+	//const handleEdit = (id) => {
+	//	navigate(`/Materials/${id}`); // Navigate to edit page
+	//};
 
 	//const [materials, setMaterials] = useState(
 	//	[
@@ -121,8 +121,7 @@ function Materials() {
 					  <td className="px-6 py-4">
 						<button
 						  className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 mr-2"
-						  onClick={() => navigate(`/update/${material.id}`)}
-						>
+						  onClick={() => navigate(`/update/${material.id}`)}>
 						  Edit
 						</button>
 					  </td>

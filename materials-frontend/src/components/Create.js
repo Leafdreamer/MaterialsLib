@@ -1,48 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-function Update() {
-    const { id } = useParams();
+function Create() {
     const [material, setMaterial] = useState([]);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const fetchData = async () => {
-		try {
-		  const response = await fetch(`http://localhost:5096/api/Materials/${id}`, {
-	        method: 'GET',
-		  });
-	  
-		  if (!response.ok) {
-			throw new Error('Network response was not ok');
-		  }
-	  
-		  const data = await response.json();
-		  setMaterial(data);
-		  console.log(data);
-		  setLoading(false);
-
-
-		} catch (error) {
-		  setError(error.message);		
-		  console.error('There has been a problem with your fetch operation:', error);
-		  setLoading(false)
-		}
-	  };
-	  
-	  useEffect(() => {
-		fetchData();
-	  }, [id]);
-
-
-      const handleUpdate = async (event) => {
+	const handleCreate = async (event) => {
         event.preventDefault();
+        material.createdAt = new Date().toISOString();
         material.updatedAt = new Date().toISOString(); 
       
         try {
-          const response = await fetch(`http://localhost:5096/api/Materials/${id}`, {
-            method: 'PUT', 
+          const response = await fetch(`http://localhost:5096/api/Materials`, {
+            method: 'POST', 
             headers: {
               'Content-Type': 'application/json',
             },
@@ -50,33 +22,28 @@ function Update() {
           });
       
           if (!response.ok) {
-            throw new Error('Failed to update the material');
+            throw new Error(`Failed to create the material.`);
           }
       
           navigate('/');
         } catch (error) {
-          setError(`Failed to update the material: ${error}`);
+          setError(`Failed to create the material.`);
         }
       };
 
       const handleChange = (e) => {
         const { name, value } = e.target;
         console.log(`Changing ${name} to ${value}`); // Debugging: Logging input changes
-        setMaterial((prevMaterial) => ({
-          ...prevMaterial,
-          [name]: value,
-        }));
+        setMaterial({ ...material, [name]: value }); // Update state for each input field
       };
 
 
-     if (loading) return <p>Loading...</p>;
      if (error) return <p>{error}</p>;
-     if (!material) return <p>Material not found</p>;
 
 
      return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <form onSubmit={handleUpdate}>
+          <form onSubmit={handleCreate}>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -84,13 +51,11 @@ function Update() {
                   <th scope="col" className="px-6 py-3">Type</th>
                   <th scope="col" className="px-6 py-3">Tags</th>
                   <th scope="col" className="px-6 py-3">Amount</th>
-                  <th scope="col" className="px-6 py-3">Created At</th>
-                  <th scope="col" className="px-6 py-3">Updated At</th>
                 </tr>
               </thead>
               <tbody className="border-collapse border border-slate-400 border-spacing-3">
                 <tr>
-                  <td className="px-6 py-4">
+                <td className="px-6 py-4">
                     <input
                       type="text"
                       name="name"
@@ -126,12 +91,6 @@ function Update() {
                       className="border rounded px-2 py-1 w-full"
                     />
                   </td>
-                  <td className="px-6 py-4">
-                    {new Date(material.createdAt).toLocaleString()}
-                  </td>
-                  <td className="px-6 py-4">
-                    {new Date(material.updatedAt).toLocaleString()}
-                  </td>
                 </tr>
               </tbody>
             </table>
@@ -156,4 +115,4 @@ function Update() {
     };
     
 
-    export default Update;
+    export default Create;
