@@ -68,6 +68,23 @@ function Update() {
         }));
       };
 
+      const handleDelete = async (id) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this material?");
+        if (confirmDelete) {
+          try {
+            const response = await fetch(`http://localhost:5096/api/Materials/${id}`, {
+              method: 'DELETE', 
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+            navigate('/');
+          } catch (error) {
+            console.error("Error deleting material:", error);
+          }
+        }
+      };
+
 
      if (loading) return <p>Loading...</p>;
      if (error) return <p>{error}</p>;
@@ -150,6 +167,14 @@ function Update() {
                 Cancel
               </button>
             </div>
+            <br></br>
+            <button
+                type="button"
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                onClick={() => handleDelete(material.id)}
+              >
+                Delete
+              </button>
           </form>
         </div>
       );
