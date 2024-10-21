@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 function Materials() {
 	const [materials, setMaterials] = useState([]);
 	const [filter, setFilter] = useState('');
+	const [sortMethod, setSortMethod] = useState({key: 'updatedAt', direction: 'descending'})
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
@@ -69,10 +70,36 @@ function Materials() {
 	//		})
 	//}, []);
 
-	  // Filtered materials based on the filter input
-	  const filteredMaterials = materials.filter(material =>
-		material.name.toLowerCase().includes(filter.toLowerCase())
+	  // New List with Sorted Materials
+	  const sortedMaterials = [...materials].sort((a,b) => {
+		if (a[sortMethod.key] < b[sortMethod.key]) {
+			return sortMethod.direction === 'ascending' ? -1 : 1;
+		}
+		if (a[sortMethod.key] > b[sortMethod.key]) {
+			return sortMethod.direction === 'ascending' ? 1 : -1;
+		}
+		return 0;
+	  });
+
+	  const requestSorting = (key) => {
+		let direction = 'ascending';
+		if (sortMethod.key === key && sortMethod.direction === 'ascending') {
+			direction = 'descending';
+		}
+		setSortMethod({key, direction});
+	  };
+
+	  // Filtered materials based on the filter input IT WORKS NOW YIPPEE now also updated to work with sorting
+	  const filteredMaterials = sortedMaterials.filter(material =>
+		material.name.toLowerCase().includes(filter.toLowerCase()) || material.type.toLowerCase().includes(filter.toLowerCase()) || material.tags.toLowerCase().includes(filter.toLowerCase()) || material.amount.toString().toLowerCase().includes(filter.toLowerCase())
 	  );
+
+	  // Arrow icons which are neat and user-friendly
+	  const getSortIcon = (key) => {
+		if (sortMethod.key !== key) return null;
+		return sortMethod.direction === 'ascending' ? ' | Λ' : ' | V';
+	  }
+	  
 
 	return (
 		<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -93,17 +120,47 @@ function Materials() {
 		  {error && <p className="text-red-500">{error}</p>}
 	
 		  <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-			<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-			  <tr>
-				<th scope="col" className="px-6 py-3">Name</th>
-				<th scope="col" className="px-6 py-3">Type</th>
-				<th scope="col" className="px-6 py-3">Tags</th>
-				<th scope="col" className="px-6 py-3">Amount</th>
-				<th scope="col" className="px-6 py-3">Created On</th>
-				<th scope="col" className="px-6 py-3">Updated On</th>
-				<th scope="col" className="px-6 py-3">Actions</th>
-			  </tr>
-			</thead>
+    		<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      	    <tr>
+        	    <th
+        	      scope="col"
+            	  className="px-6 py-3 cursor-pointer"
+            	  onClick={() => requestSorting('name')}>
+            	Name {getSortIcon('name')}
+            	</th>
+            	<th
+              	scope="col"
+              	className="px-6 py-3 cursor-pointer"
+              	onClick={() => requestSorting('type')}>
+              	Type {getSortIcon('type')}
+            	</th>
+            	<th
+              	scope="col"
+              	className="px-6 py-3 cursor-pointer"
+              	onClick={() => requestSorting('tags')}>
+              	Tags {getSortIcon('tags')}
+            	</th>
+            	<th
+              	scope="col"
+              	className="px-6 py-3 cursor-pointer"
+              	onClick={() => requestSorting('amount')}>
+              	Amount {getSortIcon('amount')}
+            	</th>
+            	<th
+              	scope="col"
+              	className="px-6 py-3 cursor-pointer"
+              	onClick={() => requestSorting('createdAt')}>
+              	Created At {getSortIcon('createdAt')}
+            	</th>
+            	<th
+              	scope="col"
+              	className="px-6 py-3 cursor-pointer"
+              	onClick={() => requestSorting('updatedAt')}>
+              	Updated At {getSortIcon('updatedAt')}
+            	</th>
+            	<th scope="col" className="px-6 py-3">Actions</th>
+          	</tr>
+        	</thead>
 			<tbody className="border-collapse border border-slate-400 border-spacing-3">
 			  {filteredMaterials.length > 0 ? (
 				filteredMaterials.map((material) => {
